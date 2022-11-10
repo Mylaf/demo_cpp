@@ -1,0 +1,33 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(test VERSION 0.1.0)
+
+### 3rd
+INCLUDE_DIRECTORIES(../3rd/include)
+INCLUDE_DIRECTORIES(../common)
+LINK_DIRECTORIES(../3rd/lib)
+
+### script: common
+FILE(GLOB HEADERS_COMMON ../common/*.h ../common/*.hpp )
+FILE(GLOB SOURCES_COMMON ../common/*.cpp ../common/*.cxx ../common/*.c )
+SOURCE_GROUP("common"  FILES ${HEADERS_COMMON})
+SOURCE_GROUP("common" FILES ${SOURCES_COMMON})
+SET(SRC_COMMON ${HEADERS_COMMON} ${SOURCES_COMMON})
+MESSAGE(STATUS "SRC_COMMON:${SRC_COMMON}")
+
+### script: main
+FILE(GLOB HEADERS_MAIN ./*.h ./*.hpp )
+FILE(GLOB SOURCES_MAIN ./*.cpp ./*.cxx ./*.c )
+#SOURCE_GROUP("common"  FILES ${HEADERS_MAIN})
+#SOURCE_GROUP("common" FILES ${SOURCES_MAIN})
+SET(SRC_MAIN ${HEADERS_MAIN} ${SOURCES_MAIN})
+MESSAGE(STATUS "SRC_MAIN:${SRC_MAIN}")
+
+### OpenCV
+SET(OpenCV_DIR "D:/ENV/opencv-4.5.2/build")
+#SET(OpenCV_DIR "D:/ENV/opencv-4.6.0/build")
+FIND_PACKAGE(OpenCV REQUIRED)
+INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS})
+
+ADD_EXECUTABLE(test ${SRC_MAIN} ${SRC_COMMON})
+TARGET_LINK_LIBRARIES(test ${OpenCV_LIBS})
+
